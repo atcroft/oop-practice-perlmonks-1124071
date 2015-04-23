@@ -68,6 +68,11 @@ sub set {
     }
 }
 
+sub episodes {
+    my $self = shift;
+    return undef;
+}
+
 sub is_active {
     my $self = shift;
     my @lt   = localtime;
