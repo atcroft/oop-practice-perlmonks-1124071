@@ -5,6 +5,7 @@ use warnings;
 
 use Data::Dumper;
 use Getopt::Long;
+use Text::CSV;
 
 use LA::Video;
 
@@ -12,57 +13,42 @@ $| = 1;
 srand();
 
 my @list;
-
-push @list,
-  LA::Video->new(
-    {
-        title => q{Criminal Minds},
-        media => q{tv},
-        year  => { start => 2005, },
-    },
-  );
-push @list,
-  LA::Video->new(
-    {
-        title => q{The 10th Kingdom},
-        media => q{miniseries},
-        year  => { start => 2000, },
-    },
-  );
-push @list,
-  LA::Video->new(
-    {
-        title    => q{Iron Man},
-        media    => q{film},
-        year     => { start => 2008, },
-        based_on => q{comics},
-        company  => q{Marvel Comics},
-    },
-  );
-push @list,
-  LA::Video->new(
-    {
-        title    => q{Tin Man},
-        media    => q{miniseries},
-        year     => { start => 2007, },
-        based_on => q{novel},
-        company  => q{L. Frank Braum},
-    },
-  );
-push @list,
-  LA::Video->new(
-    {
-        title    => q{The Avengers},
-        media    => q{film},
-        year     => { start => 1998, },
-        based_on => q{television series},
-        company  => q{Thames Television},
-    },
-  );
+@list = load_data(q{./data.csv});
 
 # print Data::Dumper->Dump( [ \@list, ], [qw( *list )] ), qq{\n};
 
 foreach my $i ( 0 .. $#list ) {
     print join( q{|}, $list[$i]->get(q{title}), $list[$i]->what_is, $list[$i]->is_active, ), qq{\n};
+}
+
+#
+# Subroutines
+#
+sub load_data {
+    my ($fn) = @_;
+
+    my @data;
+    my $csv = Text::CSV->new( { binary => 1, }, )
+      or die qq{Cannot use CSV: } . Text::CSV->error_diag();
+
+    open my $fh, q{<:encoding(utf8)}, $fn, or die $!;
+    while ( my $row = $csv->getline($fh) ) {
+        next if ( $row->[0] =~ m/^\s*#/ );
+
+        push @data,
+          LA::Video->new(
+            {
+                title    => $row->[0],
+                media    => $row->[1],
+                year     => { start => $row->[2], end => defined $row->[3] ? $row->[3] : undef, },
+                based_on => $row->[4],
+                company  => $row->[5],
+            },
+          );
+    }
+    $csv->eof or $csv->error_diag();
+    close $fh;
+
+    return @data;
 }
 
