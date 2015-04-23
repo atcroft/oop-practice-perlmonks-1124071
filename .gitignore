@@ -1,0 +1,14 @@
+# vi/vim files
+# Ignore generated backup files
+*~
+# Ignore swap files
+.*.sw?
+
+# perltidy
+# Ignore generated formatted files
+*.tdy
+# Ignore generated .ERR files
+*.ERR
+# Ignore generated .LOG files
+*.LOG
+
