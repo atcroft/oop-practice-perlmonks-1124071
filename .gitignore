@@ -12,3 +12,7 @@
 # Ignore generated .LOG files
 *.LOG
 
+# ptkdb
+# Ignore generated configuration files
+*.ptkdb
+
