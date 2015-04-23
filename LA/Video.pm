@@ -89,5 +89,20 @@ sub what_is {
     return $type;
 }
 
+sub year_range {
+    my $self       = shift;
+    my $year_range = q{};
+    if ( defined $self->get( q{year}, q{start}, ) ) {
+        $year_range .= $self->get( q{year}, q{start}, );
+    }
+    if ( $self->is_active or ( defined $self->get( q{year}, q{end}, ) and length( $self->get( q{year}, q{end}, ) ) ) ) {
+        $year_range .= q{-};
+    }
+    if ( defined $self->get( q{year}, q{end}, ) ) {
+        $year_range .= $self->get( q{year}, q{end}, );
+    }
+    return $year_range;
+}
+
 1;
 __END__
