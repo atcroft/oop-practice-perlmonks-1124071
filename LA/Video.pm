@@ -68,5 +68,26 @@ sub set {
     }
 }
 
+sub is_active {
+    my $self = shift;
+    my @lt   = localtime;
+    $lt[5] += 1900;
+    my $years = $self->get(q{year});
+    if ( defined $years->{end} ) {
+        return $years->{end} eq $lt[5] ? 1 : 0;
+    }
+    return 0;
+}
+
+sub what_is {
+    my $self = shift;
+    my $type = ref $self;
+    if ( not defined $type ) {
+        return undef;
+    }
+    $type =~ s/.+:://g;
+    return $type;
+}
+
 1;
 __END__
