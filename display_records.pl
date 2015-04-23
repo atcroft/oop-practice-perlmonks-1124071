@@ -20,15 +20,16 @@ my @list;
 
 # print Data::Dumper->Dump( [ \@list, ], [qw( *list )] ), qq{\n};
 
-print join( q{|}, q{Title}, q{Type}, q{Is active?}, q{Year(s)}, q{Based on}, q{Company}, ), qq{\n};
+print join( q{|}, q{Title}, q{Type}, q{Is active?}, q{Year(s)}, q{Based on}, q{Company}, q{Episodes}, ), qq{\n};
 foreach my $i ( 0 .. $#list ) {
     print join( q{|},
         $list[$i]->get(q{title}),
         $list[$i]->what_is,
         $list[$i]->is_active,
         $list[$i]->year_range,
-        $list[$i]->get( q{based_on}, ),
-        $list[$i]->get( q{company}, ),
+        defined $list[$i]->get( q{based_on}, ) ? $list[$i]->get( q{based_on}, ) : q{},
+        defined $list[$i]->get( q{company}, )  ? $list[$i]->get( q{company}, )  : q{},
+        defined $list[$i]->get( q{episodes}, ) ? $list[$i]->get( q{episodes}, ) : q{},
       ),
       qq{\n};
 }
@@ -55,6 +56,7 @@ sub load_data {
                     year     => { start => $row->[2], end => defined $row->[3] ? $row->[3] : undef, },
                     based_on => $row->[4],
                     company  => $row->[5],
+                    episodes => $row->[6],
                 },
               );
         }
