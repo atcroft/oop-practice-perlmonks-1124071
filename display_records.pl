@@ -22,7 +22,15 @@ my @list;
 
 print join( q{|}, q{Title}, q{Type}, q{Is active?}, q{Year(s)}, q{Based on}, q{Company}, ), qq{\n};
 foreach my $i ( 0 .. $#list ) {
-    print join( q{|}, $list[$i]->get(q{title}), $list[$i]->what_is, $list[$i]->is_active, $list[$i]->year_range, $list[$i]->get(q{based_on}, ), $list[$i]->get(q{company}, ), ), qq{\n};
+    print join( q{|},
+        $list[$i]->get(q{title}),
+        $list[$i]->what_is,
+        $list[$i]->is_active,
+        $list[$i]->year_range,
+        $list[$i]->get( q{based_on}, ),
+        $list[$i]->get( q{company}, ),
+      ),
+      qq{\n};
 }
 
 #
