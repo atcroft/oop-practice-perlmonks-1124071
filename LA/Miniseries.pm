@@ -19,5 +19,10 @@ sub new {
     $class->SUPER::new( @_, { media => q{miniseries}, }, );
 }
 
+sub episodes {
+    my $self = shift;
+    return $self->get(q{episodes}) || -1;
+}
+
 1;
 __END__
