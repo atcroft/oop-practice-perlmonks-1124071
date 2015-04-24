@@ -6,10 +6,6 @@ use warnings;
 use Carp;
 use Data::Dumper;
 
-require Exporter;
-
-our @ISA = qw(Exporter);
-
 our $VERSION = '0.01';
 
 sub new {
