@@ -6,8 +6,6 @@ use warnings;
 use Carp;
 use Data::Dumper;
 
-require Exporter;
-
 our @ISA = qw(LA::Video);
 
 our $VERSION = '0.01';
